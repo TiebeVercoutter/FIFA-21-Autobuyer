@@ -6,7 +6,7 @@
 // @description  FUT Snipping Tool
 // @author       Tiebe_V
 // @match        https://www.easports.com/uk/fifa/ultimate-team/web-app/*
-// @match        https://www.easports.com/fifa/ultimate-team/web-app/*
+// @match        https://www.ea.com/fifa/ultimate-team/web-app/*
 // @grant        none
 // ==/UserScript==
 
