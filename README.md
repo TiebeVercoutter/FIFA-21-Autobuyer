@@ -1,7 +1,5 @@
-# FIFA-20-Autobuyer
-FIFA-20-Autobuyer TamperMonkey Scripts
-
-![](https://github.com/TiebeVercoutter/FIFA-20-Autobuyer/blob/master/image.png?raw=true)
+# FIFA-21-Autobuyer
+FIFA-21-Autobuyer TamperMonkey Scripts
 
 
 Note:  
