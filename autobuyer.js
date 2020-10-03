@@ -1,11 +1,12 @@
 
 // ==UserScript==
-// @name         FUT 20 Autobuyer with TamperMonkey
+// @name         FUT 21 Autobuyer with TamperMonkey
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.3
 // @updateURL    https://github.com/TiebeVercoutter/FIFA-20-Autobuyer/blob/master/autobuyer.js
 // @description  FUT Snipping Tool
-// @author       Tiebe_V
+// @author       Rastor
+// @co-author    Tiebe_V
 // @match        https://www.easports.com/uk/fifa/ultimate-team/web-app/*
 // @match        https://www.ea.com/fifa/ultimate-team/web-app/*
 // @grant        none
@@ -37,7 +38,6 @@
     };
 
     window.bids = [];
-    window.minB = 150;
 
     window.createTimeout = function(time, interval) {
         return {
@@ -81,11 +81,7 @@
 
         var searchCriteria = getAppMain().getRootViewController().getPresentedViewController().getCurrentViewController().getCurrentController()._viewmodel.searchCriteria;
 
-        searchCriteria.maxBid = window.getMaxSearchBid(300000, 800000);
-        searchCriteria.minBid = window.minB;
-        if (window.minB >= 600){
-            window.minB = 150
-        }
+        searchCriteria.maxBid = window.getMaxSearchBid(300000, 800000);  
 
         services.Item.clearTransferMarketCache();
 
@@ -131,6 +127,7 @@
             else {
                 writeToLog('WARNING!');
                 window.autoBuyerActive = false;
+                window.badNotify('Autobuyer failed!');
             }
         }));
     }
@@ -138,6 +135,7 @@
     window.buyPlayer = function(player, price) {
         services.Item.bid(player, price).observe(this, (function(sender, data){
             if (data.success) {
+                window.notify('Player bought');
                 writeToLog(player._staticData.firstName + ' ' + player._staticData.lastName + ' [' + player._auction.tradeId + '] ' + price + " Bought");
                 var sellPrice = parseInt(jQuery('#ab_sell_price').val());
                 if (sellPrice !== 0 && !isNaN(sellPrice)) {
@@ -148,10 +146,10 @@
                     }, window.getRandomWait());
                 }
             } else {
+                window.badNotify('Buy failed');
                 writeToLog(player._staticData.firstName + ' ' + player._staticData.lastName + ' [' + player._auction.tradeId + '] ' + price + ' buy failed');
             }
         }));
-        window.minB += 50;
     }
 
     window.getSellBidPrice = function(bin) {
