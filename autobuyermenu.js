@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         FUT 20 Autobuyer Menu with TamperMonkey
+// @name         FUT 21 Autobuyer Menu with TamperMonkey
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @updateURL    https://github.com/TiebeVercoutter/FIFA-20-Autobuyer/blob/master/autobuyermenu.js
+// @version      1.3
+// @updateURL    https://github.com/TiebeVercoutter/FIFA-21-Autobuyer/blob/master/autobuyermenu.js
 // @description  FUT Snipping Tool
-// @author       Tiebe_V
+// @author       Rastor
+// @co-author    Tiebe_V
 // @match        https://www.easports.com/uk/fifa/ultimate-team/web-app/*
 // @match        https://www.ea.com/fifa/ultimate-team/web-app/*
 // @grant        none
@@ -27,7 +28,7 @@
         }
 
         window.autoBuyerActive = true;
-        window.notify('Autobyer Started');
+        window.notify('Autobuyer Started');
     }
 
     window.deactivateAutoBuyer = function() {
@@ -36,7 +37,7 @@
         }
 
         window.autoBuyerActive = false;
-        window.notify('Autobyer Stopped');
+        window.notify('Autobuyer Stopped');
     }
 
     utils.JS.inherits(UTAutoBuyerViewController, UTMarketSearchFiltersViewController)
@@ -315,6 +316,10 @@
         services.Notification.queue([message, enums.UINotificationType.POSITIVE])
     };
 
+    window.badNotify = function(message) {
+        services.Notification.queue([message, enums.UINotificationType.NEGATIVE])
+    };
+
     window.getRandomWait = function() {
         var addedTime = 1000;
         if (window.searchCount % 15 === 0) {
@@ -323,10 +328,11 @@
 
         var wait = [2, 5];
         if (jQuery('#ab_wait_time').val() !== '') {
-            wait = jQuery('#ab_wait_time').val().split('-');
+            wait = jQuery('#ab_wait_time').val().toString().split('-');
         }
         window.searchCount++;
-        return (Math.round((Math.random() * (wait[1] - wait[0]) + wait[0])) * 1000) + addedTime;
+        var wTime = Math.round(((Math.random() * (parseInt(wait[1]) - parseInt(wait[0]))) + parseInt(wait[0]))) * 1000;
+        return wTime + addedTime;
     };
 
     window.getTimerProgress = function (timer) {
